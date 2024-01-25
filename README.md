@@ -12,6 +12,18 @@
 
 ### <a name="merge-torted-array"></a> Merge Sorted Array
 
+```javascript
+/**
+ Do not return anything, modify nums1 in-place instead.
+ */
+function merge(nums1: number[], m: number, nums2: number[], n: number): void {
+    for (let i = 0; i < nums1.length; i++) {
+        
+        
+    }
+};
+```
+
 <details>
 <summary>Description</summary>
 
@@ -55,17 +67,3 @@ Note that because m = 0, there are no elements in nums1. The 0 is only there to 
 
 **Follow up:** Can you come up with an algorithm that runs in ``O(m + n)`` time?
 </details>  
-
-
-
-```javascript
-/**
- Do not return anything, modify nums1 in-place instead.
- */
-function merge(nums1: number[], m: number, nums2: number[], n: number): void {
-    for (let i = 0; i < nums1.length; i++) {
-        
-        
-    }
-};
-```
