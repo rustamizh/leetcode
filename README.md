@@ -12,6 +12,8 @@
 
 ### <a name="merge-torted-array"></a> Merge Sorted Array
 
+<details>
+<summary>Description</summary>
 You are given two integer arrays ``nums1`` and ``nums2``, sorted in non-decreasing order, and two integers ``m`` and ``n``, representing the number of elements in ``nums1`` and ``nums2`` respectively.
 
 Merge ``nums1`` and ``nums2`` into a single array sorted in non-decreasing order.
@@ -51,6 +53,8 @@ Note that because m = 0, there are no elements in nums1. The 0 is only there to 
  
 
 **Follow up:** Can you come up with an algorithm that runs in ``O(m + n)`` time?
+</details>
+
 
 <details>
 <summary>Solving</summary>
