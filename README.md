@@ -53,11 +53,9 @@ Note that because m = 0, there are no elements in nums1. The 0 is only there to 
  
 
 **Follow up:** Can you come up with an algorithm that runs in ``O(m + n)`` time?
-</details>
+</details>  
 
 
-<details>
-<summary>Solving</summary>
 
 ```javascript
 /**
@@ -70,4 +68,3 @@ function merge(nums1: number[], m: number, nums2: number[], n: number): void {
     }
 };
 ```
-</details>
