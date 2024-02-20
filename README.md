@@ -169,7 +169,7 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 ```javascript
 
   /**
-    Внимание: необходимо вернуть количество элементов которы НЕ РАВНЫ искомому.
+    Внимание: необходимо вернуть количество элементов которые НЕ РАВНЫ искомому.
   */
 export function removeElement(nums: (number | string)[], val: number): number {
     /**
