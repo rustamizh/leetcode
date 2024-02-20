@@ -7,6 +7,7 @@
 <summary>Table of contents</summary>
 
 - [Merge Sorted Array](#merge-sorted-array)
+- [Remove Element](#remove-element)
 </details>
 
 ## <a name="arrays"></a> Arrays
@@ -124,6 +125,80 @@ export function merge(
     */
     insertionIndex--;
   }
+}
+```
+</details> 
+
+### <a name="remove-element"></a> Remove Element
+
+<details>
+<summary>Problem</summary>  
+
+Given an integer array ``nums`` and an integer ``val``, remove all occurrences of ``val`` in ``nums`` in-place. The order of the elements may be changed. Then return the number of elements in ``nums`` which are not equal to ``val``.
+
+Consider the number of elements in ``nums`` which are not equal to ``val`` be ``k``, to get accepted, you need to do the following things:
+
+- Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.
+- Return k.
+
+**Example 1:**
+
+> **Input:** nums = [3,2,2,3], val = 3  
+**Output:** 2, nums = [2,2,\_,\_]  
+**Explanation:** Your function should return k = 2, with the first two elements of nums being 2.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+**Example 2:**
+
+> **Input:** nums = [0,1,2,2,3,0,4,2], val = 2  
+**Output:** 5, nums = [0,1,4,0,3,\_,\_,\_]  
+**Explanation:** Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
+Note that the five elements can be returned in any order.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+**Constraints:**
+
+- ``0 <= nums.length <= 100``
+- ``0 <= nums[i] <= 50``
+- ``0 <= val <= 100``
+</details> 
+
+<details>
+<summary>Solution</summary>  
+
+```javascript
+export function removeElement(nums: (number | string)[], val: number): number {
+    /**
+    Вводим переменную подсчета вхождений значения.
+
+    Найденные значения будем превращать в '_' и перемещать в конец массива,
+    поэтому добавляем переменную - индекс последнего перемещенного элемента.
+    Его инициализируем как nums.length - несуществующий индекс после последнего элемента.
+    */
+  let numberOfValueOccurences = 0;
+  let lastValIndex = nums.length;
+
+  for (let idx = nums.length - 1; idx >= 0; idx--) {
+    /**
+    Бежим по массиву в цикле в обратном порядке - от последнего элемента к первому включительно (idx >= 0).
+    Если нашли искомый элемент - вставляем его в позицию перед последним найденным (lastValIndex - 1),
+    а элемент оттуда вставляем в текущую позицию.
+
+    После чего декрементируем индекс последнего найденного элемента.
+    */
+
+    if (nums[idx] === val) {
+      numberOfValueOccurences++;
+      nums[idx] = '_';
+      const occurence = nums[idx];
+      const elementToSwap = nums[lastValIndex - 1];
+      nums[idx] = elementToSwap;
+      nums[lastValIndex - 1] = occurence;
+      lastValIndex--;
+    }
+  }
+
+  return numberOfValueOccurences;
 }
 ```
 </details> 
