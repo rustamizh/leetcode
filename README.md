@@ -167,6 +167,10 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 <summary>Solution</summary>  
 
 ```javascript
+
+  /**
+    Внимание: необходимо вернуть количество элементов которы НЕ РАВНЫ искомому.
+  */
 export function removeElement(nums: (number | string)[], val: number): number {
     /**
     Вводим переменную подсчета вхождений значения.
@@ -175,30 +179,62 @@ export function removeElement(nums: (number | string)[], val: number): number {
     поэтому добавляем переменную - индекс последнего перемещенного элемента.
     Его инициализируем как nums.length - несуществующий индекс после последнего элемента.
     */
-  let numberOfValueOccurences = 0;
+  let numberOfNonValueOccurences = 0;
   let lastValIndex = nums.length;
 
   for (let idx = nums.length - 1; idx >= 0; idx--) {
     /**
     Бежим по массиву в цикле в обратном порядке - от последнего элемента к первому включительно (idx >= 0).
+
     Если нашли искомый элемент - вставляем его в позицию перед последним найденным (lastValIndex - 1),
     а элемент оттуда вставляем в текущую позицию.
 
     После чего декрементируем индекс последнего найденного элемента.
+
+    Если элемент не равен искомому - инкрементируем счетчик найденных элементов.
     */
 
     if (nums[idx] === val) {
-      numberOfValueOccurences++;
       nums[idx] = '_';
       const occurence = nums[idx];
-      const elementToSwap = nums[lastValIndex - 1];
-      nums[idx] = elementToSwap;
+      nums[idx] = nums[lastValIndex - 1];
       nums[lastValIndex - 1] = occurence;
       lastValIndex--;
+    } else {
+      numberOfNonValueOccurences++;
     }
   }
 
-  return numberOfValueOccurences;
+  return numberOfNonValueOccurences;
+}
+
+/**
+    Короткое решение.
+  */
+export function removeElement(nums: number[], val: number): number {
+  /**
+    Заводим индекс последнего элемента, НЕ РАВНОГО искомому, равный нулю. 
+  */
+  let lastNonValueElementIndex = 0;
+
+  /**
+    Последовательно бежим по массиву от первого элемента, к последнему. 
+
+    Если текущий элемент не равен искомому, записываем его в индекс lastNonValueElementIndex.
+    Инкрементируем на единицу счетчик для вставки следующего элемента, не равного искомому.
+
+    Если текущий элемент равен искомому - пропускаем его и бежим дальше.
+
+    В итоге все вхождения искомого элемента (кроме последнего) перезапишутся элементами, не равными искомому.
+  */
+  nums.forEach((num) => {
+    if (num !== val) {
+      nums[lastNonValueElementIndex] = num;
+      lastNonValueElementIndex++;
+    }
+  });
+
+  return lastNonValueElementIndex;
 }
 ```
 </details> 
