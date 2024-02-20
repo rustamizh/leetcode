@@ -57,6 +57,9 @@ Note that because m = 0, there are no elements in nums1. The 0 is only there to 
 **Follow up:** Can you come up with an algorithm that runs in ``O(m + n)`` time?
 </details> 
 
+<details>
+<summary>Solution</summary>  
+
 ```javascript
 /**
  Do not return anything, modify nums1 in-place instead.
@@ -123,3 +126,4 @@ export function merge(
   }
 }
 ```
+</details> 
