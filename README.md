@@ -1,4 +1,4 @@
-# Leetcode problems solving (using TypeScript)
+# Leetcode problems solutions (in TypeScript)
 
 ## [Arrays](#arrays)
 
