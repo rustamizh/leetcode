@@ -347,7 +347,28 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 ```javascript
 
   function removeDuplicates(nums: number[]): number {
-    
-  };
+  /**
+    Заводим переменную с индексом 2, т.е. начинаем алгоритм с третьего элемента,
+     т.к. первые два автоматически соответствуют условию.
+  */
+  let indexToInsertElement = 2;
+
+  /**
+    В цикле пропускаем два первых элемента, начиная с третьего проверяем,
+    не дублирует ли текущий элемент элемент на две позиции назад.
+
+    Если не дублрует - инсёртим его сюда и инкрементируем индекс.
+
+    Иначе - идём дальше.
+  */
+  nums.forEach((num, idx) => {
+    if (idx > 1 && num !== nums[indexToInsertElement - 2]) {
+      nums[indexToInsertElement] = num;
+      indexToInsertElement++;
+    }
+  });
+
+  return indexToInsertElement;
+}
 ```
 </details> 
