@@ -9,7 +9,8 @@
 - [Merge Sorted Array](#merge-sorted-array)
 - [Remove Element](#remove-element)
 - [Remove Duplicates from Sorted Array](#remove-duplicates-from-sorted-array)
-- [remove-duplicates-from-sorted-array-ii](#remove-duplicates-from-sorted-array-ii)
+- [Remove Duplicates from Sorted Array II](#remove-duplicates-from-sorted-array-ii)
+- [Majority Element](#majority-element)
 </details>
 
 ## <a name="arrays"></a> Arrays
