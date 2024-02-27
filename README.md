@@ -67,7 +67,7 @@ Note that because m = 0, there are no elements in nums1. The 0 is only there to 
 /**
  Do not return anything, modify nums1 in-place instead.
  */
-export function merge(
+function merge(
   nums1: number[],
   m: number,
   nums2: number[],
@@ -281,7 +281,7 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 
 ```javascript
 
-  function removeDuplicates(nums: number[]): number {
+function removeDuplicates(nums: number[]): number {
   /**
     Заводим переменную с индексом последнего не дублирующегося элемента.
   */
@@ -346,10 +346,10 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 
 ```javascript
 
-  function removeDuplicates(nums: number[]): number {
+function removeDuplicates(nums: number[]): number {
   /**
     Заводим переменную с индексом 2, т.е. начинаем алгоритм с третьего элемента,
-     т.к. первые два автоматически соответствуют условию.
+      т.к. первые два автоматически соответствуют условию.
   */
   let indexToInsertElement = 2;
 
@@ -370,5 +370,86 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 
   return indexToInsertElement;
 }
+```
+</details> 
+
+
+### <a name="majority-element"></a> Majority Element
+
+<details>
+<summary>Problem</summary>  
+
+Given an array ``nums`` of size ``n``, return *the majority element*.
+
+The majority element is the element that appears more than ``⌊n / 2⌋`` times. You may assume that the majority element always exists in the array.
+
+**Example 1:**
+
+> **Input:** nums = [3,2,3]  
+**Output:** 3  
+
+**Example 2:**
+
+> **Input:** nums = [2,2,1,1,1,2,2]  
+**Output:** 2  
+
+**Constraints:**
+
+- ``n == nums.length``
+- ``1 <= n <= 5 * 10^4``
+- ``-10^9 <= nums[i] <= 10^9.``
+
+**Follow-up**: Could you solve the problem in linear time and in ``O(1)`` space?
+</details> 
+
+<details>
+<summary>Solution</summary>  
+
+```javascript
+
+function majorityElement(nums: number[]): number {
+  /**
+    Заводим две переменные, в которых будем хранить элемент и счетчик.
+  */
+  let element: number = 0;
+  let count: number = 0;
+
+  /**
+    Решение заключается в том, что мы сохраняем первый элемент, и если он попадается снова,
+    мы инкрементируем счетчик, если попадается не он - декрементируем.
+
+    Когда счётчик дойдет до нуля - меняем сохранённый элемент и продолжаем алгоритм.
+
+    Таким образом элемент, превалирующий числом, окажется в переменной element.
+  */
+  for (let num of nums) {
+      if (count === 0) {
+          element = num;
+      }
+
+      count += element === num ? 1 : -1;
+  }
+
+  return element;
+};
+
+
+/**
+  Второе решение за O(n*logn) - скорость быстрой сортировки.
+*/
+function majorityElement(nums: number[]): number {
+  /**
+    Сортируем массив по возрастанию.
+  */
+  nums.sort((a, b) => a - b);
+
+  /**
+    Берём и возвращаем элемент средний по индексу (+1 для четных массивов).
+  */
+  const middleIndex = Math.ceil(nums.length/2);
+  const element = nums[middleIndex];
+
+  return element;
+};
 ```
 </details> 
