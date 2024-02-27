@@ -11,6 +11,7 @@
 - [Remove Duplicates from Sorted Array](#remove-duplicates-from-sorted-array)
 - [Remove Duplicates from Sorted Array II](#remove-duplicates-from-sorted-array-ii)
 - [Majority Element](#majority-element)
+- [Rotate Array](#rotate-array)
 </details>
 
 ## <a name="arrays"></a> Arrays
@@ -452,5 +453,224 @@ function majorityElement(nums: number[]): number {
 
   return element;
 };
+```
+</details> 
+
+
+### <a name="rotate-array"></a> Rotate Array
+
+<details>
+<summary>Problem</summary>  
+
+Given an integer array ``nums``, rotate the array to the right by ``k`` steps, where ``k`` is non-negative.
+
+**Example 1:**
+
+> **Input:** nums = [1,2,3,4,5,6,7], k = 3   
+**Output:** [5,6,7,1,2,3,4]  
+**Explanation:**  
+rotate 1 steps to the right: [7,1,2,3,4,5,6]  
+rotate 2 steps to the right: [6,7,1,2,3,4,5]  
+rotate 3 steps to the right: [5,6,7,1,2,3,4]  
+
+> **Input:** nums = [-1,-100,3,99], k = 2   
+**Output:** [3,99,-1,-100]  
+**Explanation:**  
+rotate 1 steps to the right: [99,-1,-100,3]  
+rotate 2 steps to the right: [3,99,-1,-100]  
+
+**Constraints:**
+
+- ``1 <= nums.length <= 10^5``
+- ``-2^31 <= nums[i] <= 2^31 - 1``
+- ``0 <= k <= 10^5``
+
+**Follow-up**: 
+- Try to come up with as many solutions as you can. There are at least **three** different ways to solve this problem.
+- Could you do it in-place with ``O(1)`` extra space?
+</details> 
+
+<details>
+<summary>Solution</summary>  
+
+```javascript
+
+  /**
+    Решение со сдвигом на 1 элемент за раз (падает по таймауту на большом объёме данных).
+  */
+function rotateByOne(nums: number[], k: number): void {
+  /**
+    Определяем шаг сдвига как целочисленный остаток от деления переданного шага на длину массива.
+    Т.к. если переданный шаг сдвига больше длины массива,
+    сдвиг сводится к этому остатку (nums = [2, 1], k = 5)
+  */
+  let shiftNum = k % nums.length;
+
+  /**
+    Делаем сдвиг по одному указанное количество раз.
+  */
+  while (shiftNum > 0) {
+    rotateRight(nums);
+    shiftNum--;
+  }
+
+  /**
+    Определяем функцию сдвига, которая циклически сдвигает один элемент вправо.
+  */
+  function rotateRight(nums: number[]) {
+    const lastElement = nums[nums.length - 1];
+
+    for (let idx = nums.length - 2; idx >= 0; idx--) {
+      nums[idx + 1] = nums[idx];
+    }
+
+    nums[0] = lastElement;
+  }
+}
+
+/**
+  Решение с разворотом массива встроенными в язык методами.
+*/
+function rotateReverse(nums: number[], k: number): void {
+  /**
+    Определяем шаг сдвига как целочисленный остаток от деления переданного шага на длину массива.
+    Т.к. если переданный шаг сдвига больше длины массива,
+    сдвиг сводится к этому остатку (nums = [2, 1], k = 5)
+  */
+  const shiftNum = k % nums.length;
+
+  /**
+    Определяем индекс среза массива как длина исходного минус сдвиг.
+  */
+  const cliceIndex = nums.length - shiftNum;
+
+  /**
+    Отрезаем часть, которую необходимо сдвинуть.
+  */
+  const spliced = nums.splice(cliceIndex);
+
+  /**
+    Разворачиваем остаток.
+  */
+  nums.reverse();
+
+  /**
+    Пушим в остаток элементы из отрезанной части, начиная с конца (по сути тоже разворачивая).
+  */
+  while (spliced.length > 0) {
+    nums.push(spliced.pop() as number);
+  }
+
+  /**
+    Разворачиваем результат.
+  */
+  nums.reverse();
+}
+
+
+/**
+  Решение с дополнительным массивом.
+*/
+function rotateExtraArray(nums: number[], k: number): void {
+  /**
+    Определяем шаг сдвига как целочисленный остаток от деления переданного шага на длину массива.
+    Т.к. если переданный шаг сдвига больше длины массива,
+    сдвиг сводится к этому остатку (nums = [2, 1], k = 5)
+  */
+  const shiftNum = k % nums.length;
+
+  /**
+    Вводим индекс сдвигаемой части, как длина минус сдвиг.
+    Таким образом получаем индекс первого элемента части,
+    которую нужно сдвинуть.
+  */
+  let indexOfRotated = nums.length - shiftNum;
+
+  /**
+    Вводим индекс последнего элемента оставшейся части.
+  */
+  let lastIndexOfRest = indexOfRotated - 1;
+
+  /**
+    Вводим дополнительный массив.
+  */
+  const bufferArray: number[] = [];
+
+  /**
+    Пока индекс сдвигаемой части находится в пределах массива nums,
+    пушим по одному элементы сдвигаемой части в дополнительный массив.
+  */
+  while (indexOfRotated < nums.length) {
+    bufferArray.push(nums[indexOfRotated]);
+    indexOfRotated++;
+  }
+
+  /**
+    Начиная с последнего индекса оставшейся части, переносим её элементы
+    от текущей позиции на размер сдвига, пока не дойдем до первого элемента.
+  */
+  while (lastIndexOfRest >= 0) {
+    nums[lastIndexOfRest + shiftNum] = nums[lastIndexOfRest];
+    lastIndexOfRest--;
+  }
+
+  /**
+    Пока дополнительный массив не опустеет, помещаем элементы из него
+    в освободившуюся первую часть исходного массива,
+    используя в качестве индекса длину дополнительного массива.
+  */
+  while (bufferArray.length > 0) {
+    nums[bufferArray.length - 1] = bufferArray.pop() as number;
+  }
+}
+
+
+/**
+  Каноничное решение.
+*/
+function rotate(nums: number[], k: number): void {
+  /**
+    Вводим метод разворота массива на месте,
+    принимающий массив, индекс начала разворота и индекс конца,
+    в котором меняем крайние элементы местами, сужая диапазон замены,
+    пока не дойдем до пересечения индексов начала и конца.
+  */
+  const reverse = (nums: number[], indexStart: number, indexEnd: number) => {
+    while (indexStart < indexEnd) {
+      const firstElement = nums[indexStart];
+      nums[indexStart] = nums[indexEnd];
+      nums[indexEnd] = firstElement;
+      indexStart++;
+      indexEnd--;
+    }
+  };
+
+  /**
+    Определяем шаг сдвига как целочисленный остаток от деления переданного шага на длину массива.
+    Т.к. если переданный шаг сдвига больше длины массива,
+    сдвиг сводится к этому остатку (nums = [2, 1], k = 5)
+  */
+  const shiftNum = k % nums.length;
+
+  /**
+    Сначала разворачиваем весь массив.
+    nums = [1, 2, 3, 4, 5, 6, 7], k = 3 
+    [7, 6, 5, 4, 3, 2, 1];
+  */
+  reverse(nums, 0, nums.length - 1);
+  /**
+    Затем разворачиваем часть, от начала (прежнего конца) до шага сдвига.
+    nums = [1, 2, 3, 4, 5, 6, 7], k = 3 
+    [5, 6, 7, 4, 3, 2, 1];
+  */
+  reverse(nums, 0, shiftNum - 1);
+
+  /**
+    Затем разворачиваем остаток.
+    nums = [1, 2, 3, 4, 5, 6, 7], k = 3 
+    [5, 6, 7, 1, 2, 3, 4];
+  */
+  reverse(nums, shiftNum, nums.length - 1);
+}
 ```
 </details> 
