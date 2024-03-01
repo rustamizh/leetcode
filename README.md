@@ -674,3 +674,74 @@ function rotate(nums: number[], k: number): void {
 }
 ```
 </details> 
+
+
+### <a name="best-time-to-buy-and-sell-stock"></a> Best Time To Buy And Sell Stock
+
+<details>
+<summary>Problem</summary>  
+
+You are given an array ``prices`` where ``prices[i]`` is the price of a given stock on the ``ith`` day.
+
+You want to maximize your profit by choosing a **single day** to buy one stock and choosing a **different day** in the future to sell that stock.
+
+Return *the maximum profit you can achieve from this transaction*. If you cannot achieve any profit, return ``0``.
+
+**Example 1:**
+
+> **Input:** prices = [7,1,5,3,6,4]  
+**Output:** 5  
+**Explanation:**  Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.  
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+
+**Example 2:**
+
+> **Input:** prices = [7,6,4,3,1]  
+**Output:** 0  
+**Explanation:** In this case, no transactions are done and the max profit = 0.
+
+**Constraints:**
+
+- ``1 <= prices.length <= 10^5``
+- ``0 <= prices[i] <= 10^4``
+</details> 
+
+<details>
+<summary>Solution</summary>  
+
+```javascript
+
+function maxProfit(prices: number[]): number {
+  /**
+    Заводим переменную с днём лучшей цены для продажи, куда сразу записываем последний элемент.
+    Также заводим переменную с максимальной найденной выгодой, куда записываем значение 0.
+  */
+  let bestSellPrice = prices[prices.length - 1];
+  let maxProfit = 0;
+
+
+  /**
+    Идём по массиву в обратном порядке.
+  */
+  for (let i = prices.length - 2; i >= 0; i--) {
+      /**
+        Если находим элемент с большей стоимостью продажи, чем был найден ранее, обновляем значение bestSellPrice.
+      */
+      if  (prices[i] >= bestSellPrice) {
+          bestSellPrice = prices[i];
+      } else {
+        /**
+          Если находим день со стоимостью акций меньше bestSellPrice, 
+          считаем разницу между ним и bestSellPrice.
+
+          Если найденное значение больше maxProfit - обновляем его значение,
+          иначе - оставляем значение maxProfit прежним.
+        */
+        maxProfit = Math.max(maxProfit, bestSellPrice - prices[i]);
+      }
+  }
+
+  return maxProfit;
+};
+```
+</details> 
