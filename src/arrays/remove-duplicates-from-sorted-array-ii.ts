@@ -1,12 +1,13 @@
-function removeDuplicates(nums: number[]): number {
-  let indexToInsertElement = 2;
+function maxProfit(prices: number[]): number {
+  let maxProfit = 0;
+  let buyPrice = prices[0];
 
-  nums.forEach((num, idx) => {
-    if (idx > 1 && num !== nums[indexToInsertElement - 2]) {
-      nums[indexToInsertElement] = num;
-      indexToInsertElement++;
+  for (let i = 0; i < prices.length; i++) {
+    if (prices[i + 1] === undefined || prices[i + 1] < prices[i]) {
+      maxProfit += prices[i] - buyPrice;
+      buyPrice = prices[i + 1];
     }
-  });
+  }
 
-  return indexToInsertElement;
+  return maxProfit;
 }
