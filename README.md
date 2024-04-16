@@ -821,3 +821,77 @@ function maxProfit(prices: number[]): number {
 }
 ```
 </details> 
+
+### <a name="jump-game"></a> Jump Game
+
+<details>
+<summary>Problem</summary>  
+
+You are given an integer array ``nums``. You are initially positioned at the array's **first index**, and each element in the array represents your maximum jump length at that position.
+
+Return ``true`` *if you can reach the last index, or ``false`` otherwise*.
+
+**Example 1:**
+
+> **Input:** nums = [2,3,1,1,4]  
+**Output:** true  
+**Explanation:**  Jump 1 step from index 0 to 1, then 3 steps to the last index.
+
+**Example 2:**
+
+> **Input:** nums = [3,2,1,0,4]  
+**Output:** false  
+**Explanation:** You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
+
+**Constraints:**
+
+- ``1 <= nums.length <= 3 * 10^4``
+- ``0 <= nums[i] <= 10^5``
+</details> 
+
+<details>
+<summary>Solution</summary>  
+
+```javascript
+ /**
+    Идём по массиву с конца к началу
+  */
+export function canJump(nums: number[]): boolean {
+  /**
+      Заводим переменную индекса элемента, возможность доступности которого мы выясняем.
+      Первоначально инициализируем её последним элементом массива.
+    */
+  let lastJumpIndex = nums.length - 1;
+
+  /**
+      Идём по массиву влево, начиная от элемента левее исследуемого.
+
+      Если значение текущего элемента, т.е. количество шагов вправо, которое мы можем от него сделать,
+      больше или равно разнице индексов между ним и исследуемым, т.е. количеству шагов между ними, считаем,
+      что от него мы можем достичь исследуемого, поэтому меняем исследуемый на текущий и выясняем доступность уже до него.
+
+      Иначе, оставляем исследуемый элемент тем же и сдвигаем текущий левее, повторяя алгоритм доступности.
+    */
+  for (
+    let currentElementIdx = lastJumpIndex - 1;
+    currentElementIdx > 0;
+    currentElementIdx--
+  ) {
+    if (nums[currentElementIdx] >= lastJumpIndex - currentElementIdx) {
+      lastJumpIndex = currentElementIdx;
+    }
+  }
+
+  /**
+      Т.к. currentElementIdx в условии цикла был больше нуля, то в крайнем случае мы доберёмся
+      не менее чем до второго элемента.
+
+      В конце сравниваем, что количество доступных шагов из первого элемента больше или равно
+      индексу элемента, доступность которого мы выясняем в конце алгоритма.
+    */
+
+  return nums[0] >= lastJumpIndex;
+}
+```
+</details> 
+
